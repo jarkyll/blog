@@ -1,12 +1,24 @@
 class ArticlesController < ApplicationController
+  def show
+    #finds the article that we are most interested in
+    @article = Article.find(params[:id])
+  end
+
   def new
+  end
+
+  def index
+    @articles = Article.all
   end
 
   def create
     @article = Article.new(article_params)
 
-    @article.save
-    redirect_to @article
+    if @article.save
+      redirect_to @article
+    else
+      render 'new'
+    end
   end
 
   private
@@ -14,8 +26,4 @@ class ArticlesController < ApplicationController
       params.require(:article).permit(:title, :text)
     end
 
-    def show
-      #finds the article that we are most interested in
-      @article = Article.find(params[:id])
-    end
 end
